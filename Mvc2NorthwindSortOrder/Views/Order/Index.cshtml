@@ -1,0 +1,28 @@
+﻿@model Mvc2NorthwindSortOrder.ViewModels.OrderListViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Orders</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col"><a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="namn" asp-route-sortorder="@( Model.SortOrder == "asc"  ? "desc" : "asc" )">Namn</a></th>
+        <th scope="col"><a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="datum" asp-route-sortorder="@( Model.SortOrder == "asc"  ? "desc" : "asc" )">Datum</a></th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Items)
+    {
+        <tr>
+            <th scope="row">@order.OrderId</th>
+            <td>@order.CustomerName</td>
+            <td>@order.OrderDate</td>
+            <td><a asp-action="View" asp-route-id="@order.OrderId">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
