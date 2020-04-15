@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mvc2NorthwindSortOrder.Models;
@@ -9,6 +11,7 @@ namespace Mvc2NorthwindSortOrder.Controllers
     public class OrderController : Controller
     {
         private readonly NorthwindContext _context;
+        private readonly int PageSize = 100;
 
         public OrderController(NorthwindContext context)
         {
@@ -17,9 +20,11 @@ namespace Mvc2NorthwindSortOrder.Controllers
         // GET
         //
         //Sortorder asc / desc
-        public IActionResult Index(string sortcolumn, string sortorder)
+        public IActionResult Index(string sortcolumn, string sortorder, string page)
         {
             var orderListViewModel = new OrderListViewModel();
+
+
 
             var items = _context.Orders.Include(order => order.Customer).Select(o=> new OrderListViewModel.OrderViewModel
             {
@@ -31,10 +36,45 @@ namespace Mvc2NorthwindSortOrder.Controllers
             if (string.IsNullOrEmpty(sortorder))
                 sortorder = "asc";
 
+            items = AddSorting(items, ref sortcolumn, ref sortorder);
+
+            int currentPage = string.IsNullOrEmpty(page) ? 1 : Convert.ToInt32(page);
+
+            /*
+             * OFFSET  (@Page-1)*25 ROWS       -- skip 120 rows
+FETCH NEXT 25 ROWS ONLY; -- take 10 rows
+             *
+             */
+            var pageCount = (double)items.Count() / PageSize;
+            orderListViewModel.PagingViewModel.MaxPages = (int)Math.Ceiling(pageCount);
+
+            items = items.Skip((currentPage - 1) * PageSize).Take(PageSize);
+
+            //Hur många sidor???               100 / 25
+            //int totalNumberOfPages = items.Count()  / PageSize;
+            //result.PageCount = (int)Math.Ceiling(pageCount);
+
+
+            orderListViewModel.PagingViewModel.CurrentPage = currentPage;
+
+            orderListViewModel.Items = items.ToList();
+            orderListViewModel.SortColumn = sortcolumn;
+            orderListViewModel.SortOrder = sortorder;
+
+            return View(orderListViewModel);
+        }
+
+        private IQueryable<OrderListViewModel.OrderViewModel> AddSorting(IQueryable<OrderListViewModel.OrderViewModel> items, ref string sortcolumn, ref string sortorder)
+        {
+            if (string.IsNullOrEmpty(sortcolumn))
+                sortcolumn = "id";
+            if (string.IsNullOrEmpty(sortorder))
+                sortorder = "asc";
+
 
             if (sortcolumn == "datum")
             {
-                if(sortorder == "asc")
+                if (sortorder == "asc")
                     items = items.OrderBy(p => p.OrderDate);
                 else
                     items = items.OrderByDescending(p => p.OrderDate);
@@ -47,7 +87,7 @@ namespace Mvc2NorthwindSortOrder.Controllers
                     items = items.OrderByDescending(p => p.OrderId);
 
             }
-            else 
+            else
             {
                 if (sortorder == "asc")
                     items = items.OrderBy(p => p.CustomerName);
@@ -57,12 +97,8 @@ namespace Mvc2NorthwindSortOrder.Controllers
                 sortcolumn = "namn";
             }
 
+            return items;
 
-            orderListViewModel.Items = items.ToList();
-            orderListViewModel.SortColumn = sortcolumn;
-            orderListViewModel.SortOrder = sortorder;
-
-            return View(orderListViewModel);
         }
     }
 }
