@@ -20,12 +20,11 @@
                 </a>
             </li>
         }
-        }
-
+        
         @while (p <= Model.MaxPages)
         {
+            <li class="page-item  @(Model.CurrentPage == p ? "active" : "")"><a class="page-link" href="#" onclick="window.location.href=updateQueryStringParameter(window.location.href,'page', '@p')">@p</a></li>
             p = p + 1;
-            <li class="page-item"><a class="page-link" href="#" onclick="window.location.href=updateQueryStringParameter(window.location.href,'page', '@p')">@p</a></li>
         }
         @if (Model.ShowNextButton)
         {
@@ -38,18 +37,6 @@
         }
     </ul>
 
-
-
-
-@if (Model.ShowPrevButton)
-{
-    <a href="#" onclick="window.location.href=updateQueryStringParameter(window.location.href,'page', '@(Model.CurrentPage-1)')">Prev</a>
-
-}
-@if (Model.ShowNextButton)
-{
-    <a href="#" onclick="window.location.href=updateQueryStringParameter(window.location.href,'page', '@(Model.CurrentPage+1)')">Next</a>
-}
 
 
 

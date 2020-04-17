@@ -19,7 +19,7 @@ namespace Mvc2NorthwindSortOrder.Controllers
         // GET
         //
         //Sortorder asc / desc
-        public IActionResult Index(string sortcolumn, string sortorder, string page, string pageSize)
+        public IActionResult Index(string sortcolumn, string sortorder, string page, string pageSize) //20, 30,50
         {
             var orderListViewModel = new OrderListViewModel();
             orderListViewModel.PagingViewModel.PageSize = string.IsNullOrEmpty(pageSize) ? 

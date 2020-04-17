@@ -6,18 +6,18 @@
 
 @if (Model.ShowPrevButton)
 {
-    <a href="#" onclick="window.location.href=updateQueryStringParameter(window.location.href,'page', '@(Model.CurrentPage-1)')">Prev</a>
+    <a href="#" onclick="window.location.href=updateOrAddQueryStringParameter(window.location.href,'page', '@(Model.CurrentPage-1)')">Prev</a>
 
 }
 @if (Model.ShowNextButton)
 {
-    <a href="#" onclick="window.location.href=updateQueryStringParameter(window.location.href,'page', '@(Model.CurrentPage+1)')">Next</a>
+    <a href="#" onclick="window.location.href=updateOrAddQueryStringParameter(window.location.href,'page', '@(Model.CurrentPage+1)')">Next</a>
 }
 
 
 
     <script>
-        function updateQueryStringParameter(uri, key, value) {
+        function updateOrAddQueryStringParameter(uri, key, value) {
             var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
             var separator = uri.indexOf('?') !== -1 ? "&" : "?";
             if (uri.match(re)) {
@@ -29,7 +29,7 @@
         }
         $("#pageSize").on("change", function () {
             var newVal = $("#pageSize").val();
-            window.location.href = updateQueryStringParameter(window.location.href, 'pageSize', newVal);
+            window.location.href = updateOrAddQueryStringParameter(window.location.href, 'pageSize', newVal);
         });
     </script>
 
