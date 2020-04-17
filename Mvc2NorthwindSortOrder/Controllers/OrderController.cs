@@ -11,7 +11,6 @@ namespace Mvc2NorthwindSortOrder.Controllers
     public class OrderController : Controller
     {
         private readonly NorthwindContext _context;
-        private readonly int PageSize = 100;
 
         public OrderController(NorthwindContext context)
         {
@@ -20,10 +19,11 @@ namespace Mvc2NorthwindSortOrder.Controllers
         // GET
         //
         //Sortorder asc / desc
-        public IActionResult Index(string sortcolumn, string sortorder, string page)
+        public IActionResult Index(string sortcolumn, string sortorder, string page, string pageSize)
         {
             var orderListViewModel = new OrderListViewModel();
-
+            orderListViewModel.PagingViewModel.PageSize = string.IsNullOrEmpty(pageSize) ? 
+                20 : Convert.ToInt32(pageSize);
 
 
             var items = _context.Orders.Include(order => order.Customer).Select(o=> new OrderListViewModel.OrderViewModel
@@ -45,10 +45,10 @@ namespace Mvc2NorthwindSortOrder.Controllers
 FETCH NEXT 25 ROWS ONLY; -- take 10 rows
              *
              */
-            var pageCount = (double)items.Count() / PageSize;
+            var pageCount = (double)items.Count() / orderListViewModel.PagingViewModel.PageSize;
             orderListViewModel.PagingViewModel.MaxPages = (int)Math.Ceiling(pageCount);
 
-            items = items.Skip((currentPage - 1) * PageSize).Take(PageSize);
+            items = items.Skip((currentPage - 1) * orderListViewModel.PagingViewModel.PageSize).Take(orderListViewModel.PagingViewModel.PageSize);
 
             //Hur många sidor???               100 / 25
             //int totalNumberOfPages = items.Count()  / PageSize;

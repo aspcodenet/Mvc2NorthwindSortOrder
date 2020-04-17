@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mvc2NorthwindSortOrder.ViewModels
 {
@@ -8,6 +9,19 @@ namespace Mvc2NorthwindSortOrder.ViewModels
 
     public class PagingViewModel
     {
+        public int PageSize { get; set; }
+        public IEnumerable<SelectListItem> PageSizeOptions
+        {
+            get
+            {
+                return new[]
+                {
+                    new SelectListItem("Visa 20", "20"),
+                    new SelectListItem("Visa 30", "30"),
+                    new SelectListItem("Visa 50", "50")
+                };
+            }
+        }
         public int CurrentPage { get; set; }
         public int MaxPages { get; set; }
 

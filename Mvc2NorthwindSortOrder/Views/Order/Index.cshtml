@@ -53,12 +53,6 @@
     </tbody>
 </table>
 
-@if (Model.PagingViewModel.ShowPrevButton)
-{
-    <a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="@Model.SortColumn" asp-route-sortorder="@Model.SortOrder" asp-route-page="@(Model.PagingViewModel.CurrentPage-1)">Prev</a>
+@Html.Partial("_Pager", Model.PagingViewModel)
 
-}
-@if (Model.PagingViewModel.ShowNextButton)
-{
-    <a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="@Model.SortColumn" asp-route-sortorder="@Model.SortOrder" asp-route-page="@(Model.PagingViewModel.CurrentPage+1)">Next</a>
-}
+
