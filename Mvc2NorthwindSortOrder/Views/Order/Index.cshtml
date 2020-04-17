@@ -34,9 +34,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col"><a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="id" asp-route-sortorder="@GetClickSortOrder("id")">Id @{ RenderSortIcon("id");}</a></th>
-            <th scope="col"><a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="namn" asp-route-sortorder="@GetClickSortOrder("namn")">Title @{ RenderSortIcon("namn"); }</a></th>
-            <th scope="col"><a asp-controller="Order" asp-action="Index" asp-route-sortcolumn="datum" asp-route-sortorder="@GetClickSortOrder("datum")">Released @{ RenderSortIcon("datum"); }</a></th>
+            <th scope="col"><a href="#" onclick="window.location.href=setSort(window.location.href, 'id', '@GetClickSortOrder("id")')">Id @{ RenderSortIcon("id");}</a></th>
+            <th scope="col"><a href="#" onclick="window.location.href=setSort(window.location.href, 'namn', '@GetClickSortOrder("namn")')">Title @{ RenderSortIcon("namn"); }</a></th>
+            <th scope="col"><a href="#" onclick="window.location.href=setSort(window.location.href, 'datum', '@GetClickSortOrder("datum")')">Released @{ RenderSortIcon("datum"); }</a></th>
             <th scope="col">Action</th>
         </tr>
     </thead>
@@ -54,5 +54,12 @@
 </table>
 
 @Html.Partial("_PagerBootstrap", Model.PagingViewModel)
+<script>
+    function setSort(url,col, o) {
+        var s = updateQueryStringParameter(url, 'sortcolumn', col);
+        s = updateQueryStringParameter(s, 'sortorder', o);
+        return s;
+    }
 
+</script>
 
