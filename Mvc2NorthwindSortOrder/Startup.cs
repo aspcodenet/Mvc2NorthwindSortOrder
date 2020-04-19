@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mvc2NorthwindSortOrder.Models;
+using Mvc2NorthwindSortOrder.Services;
 
 namespace Mvc2NorthwindSortOrder
 {
@@ -25,6 +26,10 @@ namespace Mvc2NorthwindSortOrder
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.Decorate<IOrderRepository, CachedOrderRepository>();
+
+
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

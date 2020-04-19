@@ -4,19 +4,31 @@ using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mvc2NorthwindSortOrder.Models;
+using Mvc2NorthwindSortOrder.Services;
 using Mvc2NorthwindSortOrder.ViewModels;
 
 namespace Mvc2NorthwindSortOrder.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly NorthwindContext _context;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderController(NorthwindContext context)
+        public OrderController(IOrderRepository orderRepository)
         {
-            _context = context;
+            _orderRepository = orderRepository;
         }
         // GET
+
+        public IActionResult View(int id)
+        {
+            var orderEnitity = _orderRepository.Get(id);
+            var model = new OrderViewModel();
+            model.OrderId = orderEnitity.OrderId;
+            model.ShipName = orderEnitity.ShipName;
+            model.CustomerName = orderEnitity.Customer.CompanyName;
+
+            return View(model);
+        }
         //
         //Sortorder asc / desc
         public IActionResult Index(string sortcolumn, string sortorder, string page, string pageSize) //20, 30,50
@@ -25,8 +37,8 @@ namespace Mvc2NorthwindSortOrder.Controllers
             orderListViewModel.PagingViewModel.PageSize = string.IsNullOrEmpty(pageSize) ? 
                 20 : Convert.ToInt32(pageSize);
 
-
-            var items = _context.Orders.Include(order => order.Customer).Select(o=> new OrderListViewModel.OrderViewModel
+            
+            var items = _orderRepository.GetAll().Include(order => order.Customer).Select(o=> new OrderListViewModel.OrderViewModel
             {
                 CustomerName = o.Customer.CompanyName,
                 OrderDate = o.OrderDate,
