@@ -39,6 +39,9 @@ namespace Mvc2NorthwindSortOrder.Models
         [StringLength(24)]
         public string Fax { get; set; }
 
+
+        public bool DogLover { get; set; }
+
         [InverseProperty("Customer")]
         public virtual ICollection<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
         [InverseProperty("Customer")]

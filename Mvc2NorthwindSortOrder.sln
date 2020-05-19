@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc2NorthwindSortOrder", "Mvc2NorthwindSortOrder\Mvc2NorthwindSortOrder.csproj", "{1AAA4479-5EE4-4D06-839E-8A2C6807A832}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mvc2NorthwindSortOrder", "Mvc2NorthwindSortOrder\Mvc2NorthwindSortOrder.csproj", "{1AAA4479-5EE4-4D06-839E-8A2C6807A832}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTestProject2\UnitTestProject2.csproj", "{D84DAB7C-EE4E-4331-8924-C73DBE789310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1AAA4479-5EE4-4D06-839E-8A2C6807A832}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AAA4479-5EE4-4D06-839E-8A2C6807A832}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AAA4479-5EE4-4D06-839E-8A2C6807A832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D84DAB7C-EE4E-4331-8924-C73DBE789310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D84DAB7C-EE4E-4331-8924-C73DBE789310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D84DAB7C-EE4E-4331-8924-C73DBE789310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D84DAB7C-EE4E-4331-8924-C73DBE789310}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
